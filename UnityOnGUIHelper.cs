@@ -109,12 +109,12 @@ namespace asim.unity.helpers
             // If pointB is above pointA, then angle needs to be negative.
             if (pointA.y > pointB.y) { angle = -angle; }
 
-            Vector3 scale = new Vector3((pointB - pointA).magnitude + 0.1f, width, 0);
+            Vector3 scale = new Vector3((pointB - pointA).magnitude + 0.1f, width, 1);
 
             Matrix4x4 originalMatrix = GUI.matrix;
-            GUI.matrix = Matrix4x4.TRS(OriginPos, Quaternion.AngleAxis(OriginRotation * Mathf.Rad2Deg + angle, Vector3.back), new Vector3(OriginScale.x, OriginScale.y, 1) + scale);
+            GUI.matrix = Matrix4x4.TRS(OriginPos + pointA, Quaternion.AngleAxis(OriginRotation * Mathf.Rad2Deg + angle, Vector3.back), new Vector3(OriginScale.x * scale.x, OriginScale.y * scale.y, 1 * scale.z));
 
-            GUI.DrawTexture(new Rect(pointA.x, pointA.y, 1, 1), DefaultTexture, ScaleMode.ScaleToFit, false, 0, color, width, 0);
+            GUI.DrawTexture(new Rect(0, 0, 1, 1), DefaultTexture, ScaleMode.ScaleToFit, false, 0, color, width, 0);
 
             GUI.matrix = originalMatrix;
         }
