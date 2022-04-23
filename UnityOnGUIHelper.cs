@@ -92,7 +92,7 @@ namespace asim.unity.helpers
         public static void DrawText(string text, Vector2 position,Vector2 size)
         {
             Matrix4x4 originalMatrix = GUI.matrix;
-            GUI.matrix = Matrix4x4.TRS(OriginPos, Quaternion.AngleAxis(OriginRotation * Mathf.Rad2Deg, Vector3.right), new Vector3(OriginScale.x, OriginScale.y, 1));
+            GUI.matrix = Matrix4x4.TRS(OriginPos, Quaternion.AngleAxis(OriginRotation * Mathf.Rad2Deg, Vector3.forward), new Vector3(OriginScale.x, OriginScale.y, 1));
 
             GUI.Label(new Rect(position, size), text);
 
@@ -112,7 +112,7 @@ namespace asim.unity.helpers
             Vector3 scale = new Vector3((pointB - pointA).magnitude + 0.1f, width, 1);
 
             Matrix4x4 originalMatrix = GUI.matrix;
-            GUI.matrix = Matrix4x4.TRS(OriginPos + pointA, Quaternion.AngleAxis(OriginRotation * Mathf.Rad2Deg + angle, Vector3.back), new Vector3(OriginScale.x * scale.x, OriginScale.y * scale.y, 1 * scale.z));
+            GUI.matrix = Matrix4x4.TRS(OriginPos + pointA, Quaternion.AngleAxis(OriginRotation * Mathf.Rad2Deg + angle, Vector3.forward), new Vector3(OriginScale.x * scale.x, OriginScale.y * scale.y, 1 * scale.z));
 
             GUI.DrawTexture(new Rect(0, 0, 1, 1), DefaultTexture, ScaleMode.ScaleToFit, false, 0, color, width, 0);
 
@@ -133,9 +133,9 @@ namespace asim.unity.helpers
         public static void DrawEllipse(Vector2 position, Vector2 size, Color32 color, Color32 borderColor, float thickness = 0)
         {
             Matrix4x4 originalMatrix = GUI.matrix;
-            GUI.matrix = Matrix4x4.TRS(OriginPos, Quaternion.AngleAxis(OriginRotation * Mathf.Rad2Deg, Vector3.back), new Vector3(OriginScale.x, OriginScale.y, 1));
+            GUI.matrix = Matrix4x4.TRS(OriginPos, Quaternion.AngleAxis(OriginRotation * Mathf.Rad2Deg, Vector3.forward), new Vector3(OriginScale.x, OriginScale.y, 1));
 
-            Rect rect = new Rect(position, size);
+            Rect rect = new Rect(position - size / 2, size);
             GUI.DrawTexture(rect, DefaultTexture, ScaleMode.ScaleToFit, false, 0, color, 0, size.x);
             if (thickness > 0) GUI.DrawTexture(rect, DefaultTexture, ScaleMode.ScaleToFit, false, 0, borderColor, thickness, size.x);
 
@@ -148,7 +148,7 @@ namespace asim.unity.helpers
         public static void DrawRect(Vector2 position, Vector2 size, Color32 color, Color32 borderColor, bool IsCenterOrigin = false, float thickness = 0)
         {
             Matrix4x4 originalMatrix = GUI.matrix;
-            GUI.matrix = Matrix4x4.TRS(OriginPos, Quaternion.AngleAxis(OriginRotation * Mathf.Rad2Deg, Vector3.back),new Vector3(OriginScale.x, OriginScale.y,1));
+            GUI.matrix = Matrix4x4.TRS(OriginPos, Quaternion.AngleAxis(OriginRotation * Mathf.Rad2Deg, Vector3.forward),new Vector3(OriginScale.x, OriginScale.y,1));
 
             Rect rect;
             if (IsCenterOrigin) rect = new Rect(position - size / 2f, size);
