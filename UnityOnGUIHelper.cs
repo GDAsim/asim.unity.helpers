@@ -122,22 +122,25 @@ namespace asim.unity.helpers
         /// <summary>
         /// Draw a Dot / Point / Circle adjusted by originscale and position, rotation
         /// </summary>
-        public static void DrawDot(Vector2 position, float size, Color32 color, Color32 borderColor, float thickness = 0)
+        public static void DrawDot(Vector2 position, float radius, Color32 color, Color32 borderColor, float thickness = 0)
         {
-            DrawEllipse(position, new Vector2(size, size), color, borderColor, thickness);
+            DrawEllipse(position, new Vector2(radius, radius), color, borderColor, thickness);
         }
 
         /// <summary>
         /// Draw a Ellipse adjusted by originscale and position, rotation
+        /// TODO draw an actual ellipse
         /// </summary>
-        public static void DrawEllipse(Vector2 position, Vector2 size, Color32 color, Color32 borderColor, float thickness = 0)
+        public static void DrawEllipse(Vector2 position, Vector2 radius, Color32 color, Color32 borderColor, float thickness = 0)
         {
-            Matrix4x4 originalMatrix = GUI.matrix;
-            GUI.matrix = Matrix4x4.TRS(OriginPos, Quaternion.AngleAxis(OriginRotation * Mathf.Rad2Deg, Vector3.forward), new Vector3(OriginScale.x, OriginScale.y, 1));
+            Vector2 size = radius * 2;
 
-            Rect rect = new Rect(position - size / 2, size);
-            GUI.DrawTexture(rect, DefaultTexture, ScaleMode.ScaleToFit, false, 0, color, 0, size.x);
-            if (thickness > 0) GUI.DrawTexture(rect, DefaultTexture, ScaleMode.ScaleToFit, false, 0, borderColor, thickness, size.x);
+            Matrix4x4 originalMatrix = GUI.matrix;
+            GUI.matrix = Matrix4x4.TRS(OriginPos + (position - radius), Quaternion.AngleAxis(OriginRotation * Mathf.Rad2Deg, Vector3.forward), new Vector3(OriginScale.x * size.x, OriginScale.y * size.y, 1));
+
+            Rect rect = new Rect(0,0,1,1);
+            GUI.DrawTexture(rect, DefaultTexture, ScaleMode.ScaleToFit, false, 0, color, 0, 1);
+            if (thickness > 0) GUI.DrawTexture(rect, DefaultTexture, ScaleMode.ScaleToFit, false, 0, borderColor, thickness/size.x, 1);
 
             GUI.matrix = originalMatrix;
         }
