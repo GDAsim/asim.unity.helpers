@@ -85,17 +85,17 @@ namespace asim.unity.helpers
         /// <summary>
         /// Draw Text adjusted by originscale and position, rotation
         /// </summary>
-        public static void DrawText(float f, Vector2 position, Vector2 size)
-        {
-            DrawText(f.ToString(), position, size);
-        }
-        public static void DrawText(string text, Vector2 position,Vector2 size)
+        public static void DrawText(string text, Vector2 position,Vector2 size,float rotation, Color color, float fontsize = 1)
         {
             Matrix4x4 originalMatrix = GUI.matrix;
-            GUI.matrix = Matrix4x4.TRS(OriginPos, Quaternion.AngleAxis(OriginRotation * Mathf.Rad2Deg, Vector3.forward), new Vector3(OriginScale.x, OriginScale.y, 1));
+            Color originalColor = GUI.color;
 
-            GUI.Label(new Rect(position, size), text);
+            GUI.matrix = Matrix4x4.TRS(OriginPos + position, Quaternion.AngleAxis((OriginRotation + rotation) * Mathf.Rad2Deg, Vector3.forward), new Vector3(OriginScale.x * fontsize, OriginScale.y * fontsize, 1));
+            GUI.color = color;
+            
+            GUI.Label(new Rect(0,0, size.x, size.y), text);
 
+            GUI.color = originalColor;
             GUI.matrix = originalMatrix;
         }
 
@@ -114,7 +114,7 @@ namespace asim.unity.helpers
             Matrix4x4 originalMatrix = GUI.matrix;
             GUI.matrix = Matrix4x4.TRS(OriginPos + pointA, Quaternion.AngleAxis(OriginRotation * Mathf.Rad2Deg + angle, Vector3.forward), new Vector3(OriginScale.x * scale.x, OriginScale.y * scale.y, 1 * scale.z));
 
-            GUI.DrawTexture(new Rect(0, 0, 1, 1), DefaultTexture, ScaleMode.ScaleToFit, false, 0, color, width, 0);
+            GUI.DrawTexture(new Rect(0, -0.5f, 1, 1), DefaultTexture, ScaleMode.ScaleToFit, false, 0, color, width, 0);
 
             GUI.matrix = originalMatrix;
         }
@@ -122,23 +122,22 @@ namespace asim.unity.helpers
         /// <summary>
         /// Draw a Dot / Point / Circle adjusted by originscale and position, rotation
         /// </summary>
-        public static void DrawDot(Vector2 position, float radius, Color32 color, Color32 borderColor, float thickness = 0)
+        public static void DrawDot(Vector2 position, float radius, float rotation, Color32 color, Color32 borderColor, float thickness = 0)
         {
-            DrawEllipse(position, new Vector2(radius, radius), color, borderColor, thickness);
+            DrawEllipse(position, new Vector2(radius, radius), rotation, color, borderColor, thickness);
         }
 
         /// <summary>
         /// Draw a Ellipse adjusted by originscale and position, rotation
-        /// TODO draw an actual ellipse
         /// </summary>
-        public static void DrawEllipse(Vector2 position, Vector2 radius, Color32 color, Color32 borderColor, float thickness = 0)
+        public static void DrawEllipse(Vector2 position, Vector2 radius, float rotation, Color32 color, Color32 borderColor, float thickness = 0)
         {
             Vector2 size = radius * 2;
 
             Matrix4x4 originalMatrix = GUI.matrix;
-            GUI.matrix = Matrix4x4.TRS(OriginPos + (position - radius), Quaternion.AngleAxis(OriginRotation * Mathf.Rad2Deg, Vector3.forward), new Vector3(OriginScale.x * size.x, OriginScale.y * size.y, 1));
+            GUI.matrix = Matrix4x4.TRS(OriginPos + position, Quaternion.AngleAxis((OriginRotation + rotation) * Mathf.Rad2Deg, Vector3.forward), new Vector3(OriginScale.x * size.x, OriginScale.y * size.y, 1));
 
-            Rect rect = new Rect(0,0,1,1);
+            Rect rect = new Rect(-0.5f, -0.5f, 1, 1);
             GUI.DrawTexture(rect, DefaultTexture, ScaleMode.ScaleToFit, false, 0, color, 0, 1);
             if (thickness > 0) GUI.DrawTexture(rect, DefaultTexture, ScaleMode.ScaleToFit, false, 0, borderColor, thickness/size.x, 1);
 
@@ -148,17 +147,17 @@ namespace asim.unity.helpers
         /// <summary>
         /// Draws a Rect OnGUI adjusted by originscale and position, rotation
         /// </summary>
-        public static void DrawRect(Vector2 position, Vector2 size, Color32 color, Color32 borderColor, bool IsCenterOrigin = false, float thickness = 0)
+        public static void DrawRect(Vector2 position, Vector2 size, float rotation, Color32 color, Color32 borderColor, bool IsCenterOrigin = false, float thickness = 0)
         {
             Matrix4x4 originalMatrix = GUI.matrix;
-            GUI.matrix = Matrix4x4.TRS(OriginPos, Quaternion.AngleAxis(OriginRotation * Mathf.Rad2Deg, Vector3.forward),new Vector3(OriginScale.x, OriginScale.y,1));
+            GUI.matrix = Matrix4x4.TRS(OriginPos + position, Quaternion.AngleAxis((OriginRotation + rotation) * Mathf.Rad2Deg , Vector3.forward),new Vector3(OriginScale.x * size.x, OriginScale.y * size.y, 1));
 
             Rect rect;
-            if (IsCenterOrigin) rect = new Rect(position - size / 2f, size);
-            else rect = new Rect(position, size);
+            if (IsCenterOrigin) rect = new Rect(-0.5f,-0.5f,1,1);
+            else rect = new Rect(0,0,1,1);
 
             GUI.DrawTexture(rect, DefaultTexture, ScaleMode.StretchToFill, false, 0, color, 0, 0);
-            if (thickness > 0) GUI.DrawTexture(rect, DefaultTexture, ScaleMode.StretchToFill, false, 0, borderColor, thickness, 0);
+            if (thickness > 0) GUI.DrawTexture(rect, DefaultTexture, ScaleMode.StretchToFill, false, 0, borderColor, thickness/size.x, 0);
 
             GUI.matrix = originalMatrix;
         }
