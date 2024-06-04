@@ -79,8 +79,16 @@ namespace asim.unity.helpers
 
 
         #region Drawing
-
-        static Texture2D DefaultTexture = new Texture2D(2, 2);
+        static Texture2D defaultTexture;
+        static Texture2D DefaultTexture 
+        {
+            get 
+            {
+                if(defaultTexture == null)
+                    defaultTexture = new Texture2D(2, 2);
+                return defaultTexture; 
+            } 
+        }
 
         /// <summary>
         /// Draw Text adjusted by originscale and position, rotation
