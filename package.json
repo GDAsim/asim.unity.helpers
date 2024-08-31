@@ -1,14 +1,14 @@
 {
   "name": "asim.unity.helpers",
-  "version": "0.5.1",
+  "version": "0.5.2",
   "displayName": "Asim Unity Helpers",
   "description": "Asim Helpers",
   "unity": "2020.3",
   "unityRelease": "26f1",
   "keywords": [
     "asim",
-	"unity",
-	"helper",
+    "unity",
+    "helper",
     "helpers"
   ],
   "type": "library",
