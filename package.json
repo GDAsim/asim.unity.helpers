@@ -1,6 +1,6 @@
 {
   "name": "asim.unity.helpers",
-  "version": "0.5.3",
+  "version": "0.5.4",
   "displayName": "Asim Unity Helpers",
   "description": "Asim Helpers",
   "unity": "2020.3",
@@ -14,12 +14,12 @@
   "type": "library",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/GDAsim/asim.helpers.git"
+    "url": "git+https://github.com/GDAsim/asim.unity.helpers.git"
   },
   "author": "GDAsim <gamedevelopementasim@gmail.com>",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/GDAsim/asim.helpers/issues"
+    "url": "https://github.com/GDAsim/asim.unity.helpers/issues"
   },
-  "homepage": "https://github.com/GDAsim/asim.helpers#readme"
+  "homepage": "https://github.com/GDAsim/asim.unity.helpers#readme"
 }
