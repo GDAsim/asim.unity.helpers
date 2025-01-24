@@ -203,5 +203,11 @@ namespace asim.unity.helpers
         {
             Application.targetFrameRate = rate;
         }
+
+        public static Vector3 WorldToScreenPos(Camera cam, Vector3 position)
+        {
+            position.y = -position.y;
+            return cam.WorldToScreenPoint(position);
+        }
     }
 }
